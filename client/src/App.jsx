@@ -11,16 +11,24 @@ const App = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io("ws://localhost:5000"));
+    setSocket(io("http://localhost:5000"));
   }, []);
+
+  useEffect(() => {
+    user && socket.emit("addNewUser", user);
+  }, [user, socket]);
+
+  useEffect(() => {
+    socket?.on("getUser", (user) => console.log(user));
+  }, [socket]);
 
   return (
     <div className="container">
       {user ? (
         <>
-          <Navbar />
+          <Navbar socket={socket} />
           {posts.map((post) => (
-            <Card key={post.id} post={post} user={user} />
+            <Card key={post.id} post={post} socket={socket} user={user} />
           ))}
           <span className="username">{user}</span>
         </>
