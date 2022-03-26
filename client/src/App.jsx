@@ -11,7 +11,7 @@ const App = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // setSocket(io("http://localhost:5000"));
+    setSocket(io("ws://localhost:5000"));
   }, []);
 
   return (
@@ -26,7 +26,7 @@ const App = () => {
         </>
       ) : (
         <div className="login">
-          <h2>Lama App</h2>
+          <h2>notify</h2>
           <input
             type="text"
             placeholder="username"
