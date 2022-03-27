@@ -4,14 +4,18 @@ import HeartFilled from "../../img/heartFilled.svg";
 import Comment from "../../img/comment.svg";
 import Share from "../../img/share.svg";
 import Info from "../../img/info.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Card = ({ post, user, socket }) => {
   const [liked, setLiked] = useState(false);
 
   const handleNotification = (type) => {
     type === 1 && setLiked(true);
-    socket.emit("notification");
+    socket.emit("sendNotification", {
+      senderName: user,
+      receiverName: post.username,
+      type,
+    });
   };
 
   return (
