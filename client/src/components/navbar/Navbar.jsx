@@ -4,7 +4,7 @@ import Message from "../../img/message.svg";
 import Settings from "../../img/settings.svg";
 import { useEffect, useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({ socket }) => {
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -22,6 +22,12 @@ const Navbar = () => {
       <span className="notification">{`${senderName} ${action} your post.`}</span>
     );
   };
+
+  useEffect(() => {
+    socket.on("getNotification", (data) => {
+      setNotifications((prev) => [...prev, data]);
+    });
+  }, [socket]);
 
   const handleRead = () => {
     setNotifications([]);
