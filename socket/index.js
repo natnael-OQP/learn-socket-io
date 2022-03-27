@@ -18,19 +18,20 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (username) => {
-  return (users = users.filter((user) => user.username === username));
+  return users.find((user) => user.username === username);
 };
 
 io.on("connection", (socket) => {
-  // ad new user
   socket.on("addNewUser", (username) => {
     addNewUser(username, socket.id);
     io.emit("getUser", users);
-  });
-
-  // remove user
+  }); // X add new user
+  socket.on("sendNotification", ({ senderName, receiverName, type }) => {
+    const receiver = getUser(receiverName);
+    io.to(receiver?.socketId).emit("getNotification", { senderName, type });
+  }); // X notification
   socket.on("disconnect", () => {
     removeUser(socket.id);
     io.emit("getUser", users);
-  });
+  }); // X remove user
 });
