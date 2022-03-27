@@ -18,10 +18,6 @@ const App = () => {
     user && socket.emit("addNewUser", user);
   }, [user, socket]);
 
-  useEffect(() => {
-    socket?.on("getUser", (user) => console.log(user));
-  }, [socket]);
-
   return (
     <div className="container">
       {user ? (
